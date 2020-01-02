@@ -3,15 +3,8 @@ import './App.css';
 import Circle from "./Circle.js"
 import {SinGraph, CosGraph} from "./Graph.js"
   
-function getPos(el) {
-  // yay readability
-  for (var lx=0, ly=0;
-       el != null;
-       lx += el.offsetLeft, ly += el.offsetTop, el = el.offsetParent);
-  return {x: lx,y: ly};
-}
 const r = 295
-class App extends React.Component {
+class TrigVis extends React.Component {
   constructor(props) {
     super(props);
     this.state = { 
@@ -101,6 +94,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
-//<path style={{strokeWidth:1.5}}stroke = "white" fill = "none" d="M 0 1 c36.42 1, 65.38 99, 100 98 S 163.58 1 200 1" /> 
-//<rect x={this.state.angle2*100/Math.PI+.6} height="100" style={{fill:"#282c34"}} width="200"/>
+export default TrigVis;

@@ -11,7 +11,7 @@ const SinGraph = () => {
           c 36.42 1, 63.58 -99 100 -99"
         /> 
       </g>
-      <rect x="-2" y="50" height="5" width="5" style={{fill:"#282c34"}}/>
+      <rect x="-2" y="50.2" height="5" width="5" style={{fill:"#282c34"}}/>
     </g>
   )
 }
