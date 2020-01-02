@@ -15,67 +15,86 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = { 
-      x: 0, 
-      y: 0, 
       angle: 0,
       angle2:0,
       h: 0,
-      l: 0
+      l: 0,
+      cos:true
     };
-
   }
   
   _onMouseMove(e) {
-    const O = [document.documentElement.clientWidth/6, document.documentElement.clientHeight/2]
+    const data = this.getData(e);
     this.setState({ 
-      x: e.screenX-O[0], 
-      y: O[1]-e.screenY+134 ,
-      angle: Math.atan2( O[1]-e.screenY+134, e.screenX-O[0] ),
-      angle2: Math.atan2( O[1]-e.screenY+134, e.screenX-O[0] ) > 0 ? Math.atan2( O[1]-e.screenY+134, e.screenX-O[0] ) : 2*Math.PI +Math.atan2( O[1]-e.screenY+134, e.screenX-O[0] )
+      angle: data.angle,
+      angle2: data.angle2,
+      h: data.h,
+      l: data.l
     });
-    this.getLength()
   }
 
-  getLength() {
-   const h = (r-2.25)*Math.sin(this.state.angle)
-   const l = (r-2.25)*Math.cos(this.state.angle)
-   this.setState({
-     h: h,
-     l: l
-   })
+  _onMouseClick(e) {
+     const data = this.getData(e);
+    this.setState(() => ({ 
+      angle: data.angle,
+      angle2: data.angle2,
+      h: data.h,
+      l: data.l,
+     
+    }));
+  }
+
+  getData(e) {
+    const O = [document.documentElement.clientWidth/6, document.documentElement.clientHeight/2]
+    const pos = [e.clientX-O[0],O[1]-e.clientY]
+    const h = (r-2.25)*(pos[1]/(Math.sqrt(pos[1]**2 + pos[0]**2)))
+    const l = (r-2.25)*(pos[0]/(Math.sqrt(pos[1]**2 + pos[0]**2)))
+    const angle = Math.atan2( pos[1], pos[0] )
+    const anglePos = Math.atan2( pos[1], pos[0] ) > 0 ? Math.atan2( pos[1], pos[0] ) : 2*Math.PI + Math.atan2( pos[1], pos[0] )
+    return({
+      h: h,
+      l: l,
+      angle: angle,
+      angle2: anglePos
+   
+    })
   }
 
   renderSin() {
     return (
-      <svg width="60vw" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
-        <path className="Bar-sin" d={"M"+ this.state.angle2*100/Math.PI +" 50 v"+ -49*Math.sin(this.state.angle)}/>
-        
+      <div >
+      <svg  width="100%" viewBox="0 0 200 100" >
+        <path className="Bar-sin" d={"M"+ this.state.angle2*100/Math.PI +" 50 v"+ -49*Math.sin(this.state.angle)}/>  
         <path strokeWidth=".25" stroke="rgb(219, 102, 102)" d={"M 0 50 h200"}/>  
         <SinGraph />
         <rect x={this.state.angle2*100/Math.PI+.6} height="100" style={{fill:"#282c34"}} width="200"/>
       </svg>
+    </div>
     )
   }
 
   renderCos() {
     return (
-      <svg width="60vw" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg" >       
-        <path className="Bar-cos" d={"M"+ ((this.state.angle2*100/Math.PI)) +" 50 v"+ -49*Math.cos(this.state.angle)}/>
-       
-        <path strokeWidth=".25" stroke="rgb(219, 102, 102)" d={"M 0 50 h200"}/>  
-        <CosGraph />
-        <rect x={this.state.angle2*100/Math.PI+.6} height="100" style={{fill:"#282c34"}} width="200"/>
-      
-      </svg>
+      <div>
+        <svg  width="100%"viewBox="0 0 200 100" >       
+          <path className="Bar-cos" d={"M"+ ((this.state.angle2*100/Math.PI)) +" 50 v"+ -49*Math.cos(this.state.angle)}/>
+          <path strokeWidth=".25" stroke="rgb(219, 102, 102)" d={"M 0 50 h200"}/>  
+          <CosGraph />
+          <rect x={this.state.angle2*100/Math.PI+.6} height="100" style={{fill:"#282c34"}} width="200"/>
+        </svg>
+      </div>
     )
   }
 
   render() {
     return(
-      <div className="App-header" onMouseMove={this._onMouseMove.bind(this)}>
+      <div className="App-header" 
+        onMouseMove={this._onMouseMove.bind(this)}
+        onClick={this._onMouseClick.bind(this)}
+      >
         <Circle r={r} angle={this.state.angle} h={this.state.h} l={this.state.l}/>
-        <div style={{padding:"3%"}}>
-          {this.renderSin()}
+        <div className="Graph-div">
+          {this.state.cos ? this.renderSin() : this.renderCos()}
         </div>
       </div>
     )
