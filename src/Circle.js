@@ -38,7 +38,7 @@ function f_svg_ellipse_arc([cx,cy],[rx,ry], [t1, Δ], φ ) {
 export default function Circle(props) {
 
   return (
-    <div>
+    <div  >
       <svg id="svg" width="30vw"  viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg ">
         <g> 
           <path className="Axis" d={"M "+(300-props.r)+" 300 h"+ 2*props.r}/> 

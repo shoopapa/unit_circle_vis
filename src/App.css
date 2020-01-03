@@ -10,6 +10,11 @@
   align-items: middle;
   padding:30;
 }
+.Button {
+  background-color: #282c34;
+  border: none;
+  outline: none;
+}
 .Graph-div {
   display: flex;
   width: 60vw;

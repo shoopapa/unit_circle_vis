@@ -15,6 +15,16 @@ class TrigVis extends React.Component {
       cos:true
     };
   }
+/*
+  toggleGraph(e) {
+    console.log(this.state.cos)
+    const v = this.state.cos
+    this.setState(()=>({
+      cos: v ? false : true
+    }))
+
+  }
+  */
   
   _onMouseMove(e) {
     const data = this.getData(e);
@@ -27,12 +37,14 @@ class TrigVis extends React.Component {
   }
 
   _onMouseClick(e) {
-     const data = this.getData(e);
+    const v = this.state.cos
+    const data = this.getData(e);
     this.setState(() => ({ 
       angle: data.angle,
       angle2: data.angle2,
       h: data.h,
       l: data.l,
+      cos: v ? false : true
      
     }));
   }
@@ -69,7 +81,7 @@ class TrigVis extends React.Component {
   renderCos() {
     return (
       <div>
-        <svg  width="100%"viewBox="0 0 200 100" >       
+        <svg  width="100%" viewBox="0 0 200 100" >       
           <path className="Bar-cos" d={"M"+ ((this.state.angle2*100/Math.PI)) +" 50 v"+ -49*Math.cos(this.state.angle)}/>
           <path strokeWidth=".25" stroke="rgb(219, 102, 102)" d={"M 0 50 h200"}/>  
           <CosGraph />
@@ -81,14 +93,17 @@ class TrigVis extends React.Component {
 
   render() {
     return(
-      <div className="App-header" 
-        onMouseMove={this._onMouseMove.bind(this)}
-        onClick={this._onMouseClick.bind(this)}
-      >
-        <Circle r={r} angle={this.state.angle} h={this.state.h} l={this.state.l}/>
-        <div className="Graph-div">
-          {this.state.cos ? this.renderSin() : this.renderCos()}
+      <div>
+        <div className="App-header" 
+          onMouseMove={this._onMouseMove.bind(this)}
+          onClick={this._onMouseClick.bind(this)}
+        > 
+            <Circle  r={r} angle={this.state.angle} h={this.state.h} l={this.state.l}/>
+            <div className="Graph-div" >
+              {this.state.cos ? this.renderSin() : this.renderCos()}
+            </div>
         </div>
+        
       </div>
     )
   }
